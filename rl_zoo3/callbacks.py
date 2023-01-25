@@ -13,6 +13,28 @@ from stable_baselines3.common.callbacks import BaseCallback, EvalCallback
 from stable_baselines3.common.logger import TensorBoardOutputFormat
 from stable_baselines3.common.vec_env import VecEnv
 
+class CTRReachCallback(BaseCallback):
+    """
+    Callback used for all things concentric tube robot training related including:
+    - logging statistics
+    - Updating goal tolerance
+    """
+
+    def __init__(self, verbose=0):
+        super().__init__(verbose)
+
+    def _on_step(self) -> bool:
+        return True
+
+    def _on_rollout_start(self) -> None:
+        # Update goal tolerance
+        self.training_env.env_method("update_goal_tolerance", self.num_timesteps)
+        return True
+
+    def _on_rollout_end(self) -> None:
+        self.logger.record('rollout/goal_tolerance', self.training_env.env_method('get_goal_tolerance')[0])
+        self.logger.record('rollout/error', self.locals['infos'][0]['error'])
+        return True
 
 class TrialEvalCallback(EvalCallback):
     """
