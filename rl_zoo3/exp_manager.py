@@ -47,7 +47,7 @@ from torch import nn as nn  # noqa: F401
 
 # Register custom envs
 import rl_zoo3.import_envs  # noqa: F401 pytype: disable=import-error
-from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback
+from rl_zoo3.callbacks import SaveVecNormalizeCallback, TrialEvalCallback, CTRReachCallback
 from rl_zoo3.hyperparams_opt import HYPERPARAMS_SAMPLER
 from rl_zoo3.utils import ALGOS, get_callback_list, get_class_by_name, get_latest_run_id, get_wrapper_class, linear_schedule
 
